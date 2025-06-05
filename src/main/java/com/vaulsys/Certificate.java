@@ -1,6 +1,7 @@
 package com.vaulsys;
 
-import javax.persistence.*;
+import javax.persistence.*;   
+
 
 @Entity
 @Table(name = "Certificate")
@@ -17,7 +18,7 @@ public class Certificate {
     private String duration;
 
     @OneToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "Roll_number")
+    @JoinColumn(name = "student_roll_number", unique = true)
     private Student student;
 
     public Certificate() {}
@@ -30,31 +31,15 @@ public class Certificate {
 
     // Getters and setters
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public String getCourseName() {
-        return courseName;
-    }
+    public String getCourseName() { return courseName; }
+    public void setCourseName(String courseName) { this.courseName = courseName; }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
+    public String getDuration() { return duration; }
+    public void setDuration(String duration) { this.duration = duration; }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
+    public Student getStudent() { return student; }
+    public void setStudent(Student student) { this.student = student; }
 }

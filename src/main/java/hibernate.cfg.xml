@@ -18,6 +18,9 @@
 	
 	<mapping class="com.vaulsys.Student" />
 	<mapping class="com.vaulsys.Certificate" />
+    <mapping class="com.vaulsys.Course"/>
+   <mapping class="com.vaulsys.Department"/>
+	
 	</session-factory>
 	
 	

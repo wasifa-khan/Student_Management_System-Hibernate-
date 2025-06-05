@@ -1,6 +1,7 @@
 package com.vaulsys;
 
-import javax.persistence.*;
+import javax.persistence.*;   
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,11 +13,11 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Dept_Name")
+    @Column(name = "Department_Name")
     private String name;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private Set<Student> students = new HashSet<>();
+    private Set<Course> courses = new HashSet<>();
 
     public Department() {}
 
@@ -26,24 +27,15 @@ public class Department {
 
     // Getters and setters
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Student> getStudents() {
-        return students;
-    }
-
-    public void addStudent(Student student) {
-        students.add(student);
-        student.setDepartment(this);
+    public Set<Course> getCourses() { return courses; }
+    public void addCourse(Course course) {
+        courses.add(course);
+        course.setDepartment(this);
     }
 }

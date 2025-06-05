@@ -1,6 +1,7 @@
 package com.vaulsys;
 
-import javax.persistence.*;
+import javax.persistence.*;   
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,7 @@ public class Student {
 
     @Id
     @Column(name = "Roll_number")
-    private int roll;
+    private int rollNumber;
 
     @Column(name = "Name")
     private String name;
@@ -30,22 +31,18 @@ public class Student {
     @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
     private Certificate certificate;
 
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
-        name = "student_course",
-        joinColumns = @JoinColumn(name = "student_roll"),
+        name = "Student_Course",
+        joinColumns = @JoinColumn(name = "student_roll_number"),
         inverseJoinColumns = @JoinColumn(name = "course_id")
     )
     private Set<Course> courses = new HashSet<>();
 
     public Student() {}
 
-    public Student(int roll, String name, int age, String gender, String address, String phoneNumber) {
-        this.roll = roll;
+    public Student(int rollNumber, String name, int age, String gender, String address, String phoneNumber) {
+        this.rollNumber = rollNumber;
         this.name = name;
         this.age = age;
         this.gender = gender;
@@ -53,60 +50,27 @@ public class Student {
         this.phoneNumber = phoneNumber;
     }
 
-    // Getters and setters for all fields
+    // Getters and setters
 
-    public int getRoll() {
-        return roll;
-    }
+    public int getRollNumber() { return rollNumber; }
+    public void setRollNumber(int rollNumber) { this.rollNumber = rollNumber; }
 
-    public void setRoll(int roll) {
-        this.roll = roll;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
 
-    public int getAge() {
-        return age;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Certificate getCertificate() {
-        return certificate;
-    }
-
+    public Certificate getCertificate() { return certificate; }
     public void setCertificate(Certificate certificate) {
         this.certificate = certificate;
         if (certificate != null) {
@@ -114,21 +78,13 @@ public class Student {
         }
     }
 
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
+    public Set<Course> getCourses() { return courses; }
     public void addCourse(Course course) {
-        this.courses.add(course);
+        courses.add(course);
         course.getStudents().add(this);
     }
+    public void removeCourse(Course course) {
+        courses.remove(course);
+        course.getStudents().remove(this);
+    }
 }
-																																														
